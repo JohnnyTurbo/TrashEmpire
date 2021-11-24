@@ -1,5 +1,4 @@
-﻿using Reese.Nav;
-using Unity.Entities;
+﻿using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Physics;
 using Unity.Physics.Systems;
@@ -10,21 +9,25 @@ using RaycastHit = Unity.Physics.RaycastHit;
 namespace TMG.TrashEmpire
 {
     //[AlwaysUpdateSystem]
-    [DisableAutoCreation]
+    //[DisableAutoCreation]
     public class TestRaycastSelectionSystem : SystemBase
     {
         public bool EntitySelected => _entitySelected;
 
         private Camera _mainCamera;
         private bool _entitySelected;
-        private bool _justSelected;
         private BuildPhysicsWorld _physicsWorldSystem;
         private CollisionWorld _collisionWorld;
+        private SelectedEntityData _selectedEntityData;
+        
         protected override void OnStartRunning()
         {
             _mainCamera = Camera.main;
             _physicsWorldSystem = World.GetExistingSystem<BuildPhysicsWorld>();
             _collisionWorld = _physicsWorldSystem.PhysicsWorld.CollisionWorld;
+            _selectedEntityData = GetSingleton<SelectedEntityData>();
+            
+            RequireSingletonForUpdate<UnitSelectStateTag>();
         }
 
         protected override void OnUpdate()
@@ -35,61 +38,53 @@ namespace TMG.TrashEmpire
                 var rayStart = ray.origin;
                 var rayEnd = ray.GetPoint(_mainCamera.farClipPlane);
                 RaycastHit hit;
-                if (Raycast(rayStart, rayEnd, out hit) && !_entitySelected)
+                if (Raycast(rayStart, rayEnd, out hit))
                 {
                     var selectedEntity = _physicsWorldSystem.PhysicsWorld.Bodies[hit.RigidBodyIndex].Entity;
-                    if (EntityManager.HasComponent<SelectableTag>(selectedEntity))
+                    if (EntityManager.HasComponent<SelectableUnitTag>(selectedEntity))
                     {
-                        EntityManager.AddComponent<SelectedEntityTag>(selectedEntity);
-                        _entitySelected = true;
-                        _justSelected = true;
+                        if (_selectedEntityData.SelectedUnit != selectedEntity)
+                        {
+                            DeselectUnit();
+                            SelectUnit(selectedEntity);
+                        }
                     }
-                }
-            }
-
-            if (Input.GetMouseButtonUp(0))
-            {
-                if (_justSelected)
-                {
-                    _justSelected = false;
+                    else
+                    {
+                        // Raycast did not hit a selectable unit
+                        DeselectUnit();
+                    }
                 }
                 else
                 {
-                    var ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
-                var rayStart = ray.origin;
-                var rayEnd = ray.GetPoint(_mainCamera.farClipPlane);
-                RaycastHit hit;
-                if (Raycast(rayStart, rayEnd, out hit) && _entitySelected)
-                {
-
-                    _entitySelected = false;
-                    Entities.WithAll<SelectedEntityTag>().ForEach((Entity e) =>
-                    {
-                        if (HasComponent<NavDestination>(e))
-                        {
-                            GetBuffer<NavPathBufferElement>(e).Clear();
-                            EntityManager.RemoveComponent<NavDestination>(e);
-                        }
-
-                        EntityManager.AddComponentData(e, new NavDestination
-                        {
-                            WorldPoint = hit.Position,
-                            Teleport = false
-                        });
-                    }).WithStructuralChanges().WithoutBurst().Run();
-                }
-
-                /*else
-                {
-                    var selectedEntity = _physicsWorldSystem.PhysicsWorld.Bodies[hit.RigidBodyIndex].Entity;
-                    if (EntityManager.HasComponent<SelectableTag>(selectedEntity))
-                    {
-                        EntityManager.AddComponent<SelectedEntityTag>(selectedEntity);
-                        _entitySelected = true;
-                    }
-                }*/
+                    // Raycast did not hit anything
+                    DeselectUnit();
                 }
             }
+        }
+
+        private void SelectUnit(Entity selectedEntity)
+        {
+            // Debug.Log($"Selecting Entity ID: {selectedEntity.Index}, Version: {selectedEntity.Version}");
+            EntityManager.AddComponent<SelectedEntityTag>(selectedEntity);
+            _selectedEntityData.SelectedUnit = selectedEntity;
+            _entitySelected = true;
+            var selectionUI = EntityManager.Instantiate(_selectedEntityData.SelectionUIPrefab);
+            _selectedEntityData.SelectionUI = selectionUI;
+            SetSingleton(_selectedEntityData);
+            EntityManager.AddComponentData(selectionUI, new Parent {Value = selectedEntity});
+            EntityManager.AddComponentData(selectionUI, new LocalToParent {Value = float4x4.zero});
+        }
+
+        private void DeselectUnit()
+        {
+            //Debug.Log("Deselecting Unit");
+            EntityManager.RemoveComponent<SelectedEntityTag>(_selectedEntityData.SelectedUnit);
+            _selectedEntityData.SelectedUnit = Entity.Null;
+            EntityManager.DestroyEntity(_selectedEntityData.SelectionUI);
+            _selectedEntityData.SelectionUI = Entity.Null;
+            SetSingleton(_selectedEntityData);
+            _entitySelected = false;
         }
 
         private bool Raycast(float3 rayFrom, float3 rayTo, out RaycastHit raycastHit)

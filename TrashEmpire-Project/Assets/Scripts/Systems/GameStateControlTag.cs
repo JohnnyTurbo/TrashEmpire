@@ -3,7 +3,5 @@
 namespace TMG.TrashEmpire
 {
     [GenerateAuthoringComponent]
-    public struct SelectableTag : IComponentData
-    {
-    }
+    public struct GameStateControlTag : IComponentData {}
 }
