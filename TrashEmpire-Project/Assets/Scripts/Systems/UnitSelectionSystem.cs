@@ -66,10 +66,10 @@ namespace TMG.TrashEmpire
             var ray3d = ray3.direction * 1000f;
             var ray4d = ray4.direction * 1000f;
             
-            Debug.DrawRay(ray1.origin, ray1d, color, 5.1f);
-            Debug.DrawRay(ray2.origin, ray2d, color, 5.1f);
-            Debug.DrawRay(ray3.origin, ray3d, color, 5.1f);
-            Debug.DrawRay(ray4.origin, ray4d, color, 5.1f);
+            /*Debug.DrawRay(ray1.origin, ray1d, color, 25.1f);
+            Debug.DrawRay(ray2.origin, ray2d, color, 25.1f);
+            Debug.DrawRay(ray3.origin, ray3d, color, 25.1f);
+            Debug.DrawRay(ray4.origin, ray4d, color, 25.1f);*/
 
             RaycastHit hit1;
             RaycastHit hit2;
@@ -98,15 +98,15 @@ namespace TMG.TrashEmpire
 
             //farDistance += 5f;
             
-            var farpoint1 = ray1.GetPoint(hit1.distance + 5f);
-            var farpoint2 = ray2.GetPoint(hit2.distance + 5f);
-            var farpoint3 = ray3.GetPoint(hit3.distance + 5f);
-            var farpoint4 = ray4.GetPoint(hit4.distance + 5f);
+            var farpoint1 = ray1.GetPoint(hit1.distance + -.005f);
+            var farpoint2 = ray2.GetPoint(hit2.distance + -.005f);
+            var farpoint3 = ray3.GetPoint(hit3.distance + -.005f);
+            var farpoint4 = ray4.GetPoint(hit4.distance + -.005f);
             
-            Debug.DrawLine(farpoint1, farpoint3, Color.green, 5.1f);
-            Debug.DrawLine(farpoint3, farpoint2, Color.green, 5.1f);
-            Debug.DrawLine(farpoint2, farpoint4, Color.green, 5.1f);
-            Debug.DrawLine(farpoint4, farpoint1, Color.green, 5.1f);
+            Debug.DrawLine(farpoint1, farpoint3, Color.green, 25.1f);
+            Debug.DrawLine(farpoint3, farpoint2, Color.green, 25.1f);
+            Debug.DrawLine(farpoint2, farpoint4, Color.green, 25.1f);
+            Debug.DrawLine(farpoint4, farpoint1, Color.green, 25.1f);
             
             var selectionBounds =
                 new NativeArray<float3>(

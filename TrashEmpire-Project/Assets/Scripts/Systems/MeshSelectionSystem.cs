@@ -1,9 +1,7 @@
-﻿using System.ComponentModel;
-using Unity.Collections;
+﻿using Unity.Collections;
 using Unity.Entities;
 using Unity.Physics;
 using Unity.Physics.Systems;
-using UnityEditor;
 using UnityEngine;
 
 namespace TMG.TrashEmpire
@@ -28,7 +26,7 @@ namespace TMG.TrashEmpire
         {
             var ecb = ecbSystem.CreateCommandBuffer();
             var seq = EntityManager.CreateEntityQuery(typeof(SelectionTag));
-            var teq = EntityManager.CreateEntityQuery(typeof(TrashTag));
+            var teq = EntityManager.CreateEntityQuery(typeof(TrashData));
             
             Debug.Log($"{seq.CalculateEntityCount()} selections and {teq.CalculateEntityCount()} trashes and {seq.ToEntityArray(Allocator.Temp)[0].Index}");
             //EditorApplication.isPaused = true;
@@ -36,7 +34,7 @@ namespace TMG.TrashEmpire
             var jobHandle = new SelectionJob
             {
                 selectionGroup = GetComponentDataFromEntity<SelectionTag>(),
-                trashGroup = GetComponentDataFromEntity<TrashTag>()
+                trashGroup = GetComponentDataFromEntity<TrashData>()
             }.Schedule(_stepPhysicsWorld.Simulation, ref _buildPhysicsWorld.PhysicsWorld, Dependency);
             
             jobHandle.Complete();
@@ -55,11 +53,11 @@ namespace TMG.TrashEmpire
         struct SelectionJob : ITriggerEventsJob
         {
             public ComponentDataFromEntity<SelectionTag> selectionGroup;
-            public ComponentDataFromEntity<TrashTag> trashGroup;
-        
+            public ComponentDataFromEntity<TrashData> trashGroup;
+            public DynamicBuffer<TrashBufferElement> trashToPickUp;
+            
             public void Execute(TriggerEvent triggerEvent)
             {
-                
                 var entityA = triggerEvent.EntityA;
                 var entityB = triggerEvent.EntityB;
 
@@ -73,10 +71,10 @@ namespace TMG.TrashEmpire
             
                 if((isBodyASelection && !isBodyBTrash) || (isBodyBSelection && !isBodyATrash)){return;}
 
-                var selectionEntity = isBodyASelection ? entityA : entityB;
+                //var selectionEntity = isBodyASelection ? entityA : entityB;
                 var trashEntity = isBodyASelection ? entityB : entityA;
-                
-                Debug.Log($"Entity {selectionEntity.Index} is selection. Entity {trashEntity.Index} is trash kid.");
+
+                trashToPickUp.Add(trashEntity);
             }
         }
     }
