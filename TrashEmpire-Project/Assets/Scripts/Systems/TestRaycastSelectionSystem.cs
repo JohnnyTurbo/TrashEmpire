@@ -3,16 +3,21 @@ using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Physics;
 using Unity.Physics.Systems;
+using Unity.Transforms;
 using UnityEngine;
 using RaycastHit = Unity.Physics.RaycastHit;
 
 namespace TMG.TrashEmpire
 {
-    [AlwaysUpdateSystem]
+    //[AlwaysUpdateSystem]
+    [DisableAutoCreation]
     public class TestRaycastSelectionSystem : SystemBase
     {
+        public bool EntitySelected => _entitySelected;
+
         private Camera _mainCamera;
         private bool _entitySelected;
+        private bool _justSelected;
         private BuildPhysicsWorld _physicsWorldSystem;
         private CollisionWorld _collisionWorld;
         protected override void OnStartRunning()
@@ -30,35 +35,59 @@ namespace TMG.TrashEmpire
                 var rayStart = ray.origin;
                 var rayEnd = ray.GetPoint(_mainCamera.farClipPlane);
                 RaycastHit hit;
-                if (Raycast(rayStart, rayEnd, out hit))
+                if (Raycast(rayStart, rayEnd, out hit) && !_entitySelected)
                 {
-                    if (_entitySelected)
+                    var selectedEntity = _physicsWorldSystem.PhysicsWorld.Bodies[hit.RigidBodyIndex].Entity;
+                    if (EntityManager.HasComponent<SelectableTag>(selectedEntity))
                     {
-                        _entitySelected = false;
-                        Entities.WithAll<SelectedEntityTag>().ForEach((Entity e) =>
-                        {
-                            if (HasComponent<NavDestination>(e))
-                            {
-                                GetBuffer<NavPathBufferElement>(e).Clear();
-                                EntityManager.RemoveComponent<NavDestination>(e);
-                            }
+                        EntityManager.AddComponent<SelectedEntityTag>(selectedEntity);
+                        _entitySelected = true;
+                        _justSelected = true;
+                    }
+                }
+            }
 
-                            EntityManager.AddComponentData(e, new NavDestination
-                            {
-                                WorldPoint = hit.Position,
-                                Teleport = false
-                            });
-                        }).WithStructuralChanges().WithoutBurst().Run();
-                    }
-                    else
+            if (Input.GetMouseButtonUp(0))
+            {
+                if (_justSelected)
+                {
+                    _justSelected = false;
+                }
+                else
+                {
+                    var ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
+                var rayStart = ray.origin;
+                var rayEnd = ray.GetPoint(_mainCamera.farClipPlane);
+                RaycastHit hit;
+                if (Raycast(rayStart, rayEnd, out hit) && _entitySelected)
+                {
+
+                    _entitySelected = false;
+                    Entities.WithAll<SelectedEntityTag>().ForEach((Entity e) =>
                     {
-                        var selectedEntity = _physicsWorldSystem.PhysicsWorld.Bodies[hit.RigidBodyIndex].Entity;
-                        if (EntityManager.HasComponent<SelectableTag>(selectedEntity))
+                        if (HasComponent<NavDestination>(e))
                         {
-                            EntityManager.AddComponent<SelectedEntityTag>(selectedEntity);
-                            _entitySelected = true;
+                            GetBuffer<NavPathBufferElement>(e).Clear();
+                            EntityManager.RemoveComponent<NavDestination>(e);
                         }
+
+                        EntityManager.AddComponentData(e, new NavDestination
+                        {
+                            WorldPoint = hit.Position,
+                            Teleport = false
+                        });
+                    }).WithStructuralChanges().WithoutBurst().Run();
+                }
+
+                /*else
+                {
+                    var selectedEntity = _physicsWorldSystem.PhysicsWorld.Bodies[hit.RigidBodyIndex].Entity;
+                    if (EntityManager.HasComponent<SelectableTag>(selectedEntity))
+                    {
+                        EntityManager.AddComponent<SelectedEntityTag>(selectedEntity);
+                        _entitySelected = true;
                     }
+                }*/
                 }
             }
         }
