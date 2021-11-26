@@ -16,11 +16,12 @@ namespace TMG.TrashEmpire
 
             var deltaTime = Time.DeltaTime;
             
-            Entities.ForEach((Entity e, ref PickingUpTrashData trashTimer, in TargetTrashData targetTrash)=>
+            Entities.ForEach((Entity e, ref PickingUpTrashData trashTimer, ref TrashCollectionData trashCollectionData, in TargetTrashData targetTrash)=>
             {
                 trashTimer.timePickingUp += deltaTime;
                 if (trashTimer.timePickingUp >= GetComponent<TrashData>(targetTrash.Value).Weight)
                 {
+                    trashCollectionData.CurrentTrashHeld += GetComponent<TrashData>(targetTrash.Value).Weight;
                     EntityManager.AddComponent<DeleteTrashTag>(targetTrash.Value);
                     EntityManager.RemoveComponent<PickingUpTrashData>(e);
                     EntityManager.RemoveComponent<TargetTrashData>(e);

@@ -6,6 +6,7 @@ namespace TMG.TrashEmpire
     public struct TrashCollectionData : IComponentData
     {
         public float CurrentTrashHeld;
-        public float TrashCapacity;
+        public float MaximumTrashCapacity;
+        public float AvailableTrashCapacity => MaximumTrashCapacity - CurrentTrashHeld;
     }
 }
