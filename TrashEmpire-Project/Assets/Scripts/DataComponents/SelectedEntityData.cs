@@ -3,9 +3,8 @@
 namespace TMG.TrashEmpire
 {
     [GenerateAuthoringComponent]
-    public struct SelectedEntityData : IComponentData
+    public struct SelectionUIData : IComponentData
     {
-        public Entity SelectedUnit;
         public Entity SelectionUI;
         public Entity SelectionUIPrefab;
     }

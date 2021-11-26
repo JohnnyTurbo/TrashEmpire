@@ -1,6 +1,5 @@
 ﻿using Unity.Entities;
 using Unity.Physics.Stateful;
-using UnityEngine;
 
 namespace TMG.TrashEmpire
 {

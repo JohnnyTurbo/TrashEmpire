@@ -1,5 +1,4 @@
-﻿using Reese.Nav;
-using Unity.Entities;
+﻿using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Physics;
 using Unity.Physics.Systems;
@@ -15,38 +14,31 @@ namespace TMG.TrashEmpire
     public class SetPatrolAreaStateSystem : SystemBase
     {
         private Entity _gameStateController;
-        private SelectedEntityData _selectedEntityData;
+        private Entity _selectedUnit;
         private Camera _mainCamera;
         private BuildPhysicsWorld _physicsWorldSystem;
         private CollisionWorld _collisionWorld;
         private PatrolAreaPrefabData _patrolAreaPrefabData;
         private Entity _patrolAreaSelection;
-        // private EndSimulationEntityCommandBufferSystem _ecbSystem;
 
         protected override void OnCreate()
         { 
-            // _ecbSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
+            // Debug.Log("SetPatrolAreaStateSystem OnCreate");
+            RequireSingletonForUpdate<SelectedEntityTag>();
+            RequireSingletonForUpdate<SetPatrolAreaStateTag>();
         }
 
         protected override void OnStartRunning()
         {
-            // This should be OnCreate() eventually
-             Debug.Log("SetPatrolAreaStateSystem OnStartRunning");
-            // Debug.Log("SetPatrolAreaStateSystem OnCreate");
-
+             //Debug.Log("SetPatrolAreaStateSystem OnStartRunning");
+             
             _gameStateController = GetSingletonEntity<GameStateControlTag>();
-            _selectedEntityData = GetSingleton<SelectedEntityData>();
+            _selectedUnit = GetSingletonEntity<SelectedEntityTag>();
             _patrolAreaPrefabData = GetSingleton<PatrolAreaPrefabData>();
             _mainCamera = Camera.main;
             _physicsWorldSystem = World.GetExistingSystem<BuildPhysicsWorld>();
             _collisionWorld = _physicsWorldSystem.PhysicsWorld.CollisionWorld;
             
-            RequireSingletonForUpdate<SelectedEntityTag>();
-            RequireSingletonForUpdate<SetPatrolAreaStateTag>();
-            
-            // This stuff should actually be in OnStartRunning()
-            //var ecb = _ecbSystem.CreateCommandBuffer();
-            //ecb.Instantiate(_patrolAreaData.PatrolAreaPrefab);
             _patrolAreaSelection = EntityManager.Instantiate(_patrolAreaPrefabData.PatrolAreaSelectionPrefab);
         }
 
@@ -63,49 +55,36 @@ namespace TMG.TrashEmpire
                 {
                     SetPatrolArea(hit.Position);
 
-                    ChangeToUnitSelectState();
+                    ChangeToUnitSelectedState();
                 }
             }
 
             if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1))
             {
-                ChangeToUnitSelectState();
+                ChangeToUnitSelectedState();
             }
         }
 
         private void SetPatrolArea(float3 patrolOrigin)
         {
             Entity patrolArea;
-            Entity selectedUnit = _selectedEntityData.SelectedUnit;
             
-            if (!HasComponent<PatrolAreaData>(selectedUnit))
+            if (!HasComponent<PatrolAreaData>(_selectedUnit))
             {
-                EntityManager.AddComponent<PatrolAreaData>(selectedUnit);
+                EntityManager.AddComponent<PatrolAreaData>(_selectedUnit);
                 patrolArea = EntityManager.Instantiate(_patrolAreaPrefabData.PatrolAreaPrefab);
-                SetComponent(selectedUnit, new PatrolAreaData{Value = patrolArea});
+                SetComponent(_selectedUnit, new PatrolAreaData{Value = patrolArea});
             }
             else
             {
-                patrolArea = GetComponent<PatrolAreaData>(selectedUnit).Value;
+                patrolArea = GetComponent<PatrolAreaData>(_selectedUnit).Value;
             }
             EntityManager.SetComponentData(patrolArea, new Translation{Value = patrolOrigin});
-
-            /*if (HasComponent<NavDestination>(_selectedEntityData.SelectedUnit))
-            {
-                GetBuffer<NavPathBufferElement>(_selectedEntityData.SelectedUnit).Clear();
-                EntityManager.RemoveComponent<NavDestination>(_selectedEntityData.SelectedUnit);
-            }
-
-            EntityManager.AddComponentData(_selectedEntityData.SelectedUnit, new NavDestination
-            {
-                WorldPoint = patrolOrigin,
-                Teleport = false
-            });*/
         }
 
-        private void ChangeToUnitSelectState()
+        private void ChangeToUnitSelectedState()
         {
-            Debug.Log("Changing to unit select state");
+            //Debug.Log("Changing to unit selected state");
             EntityManager.RemoveComponent<SetPatrolAreaStateTag>(_gameStateController);
             EntityManager.AddComponent<UnitSelectStateTag>(_gameStateController);
         }
