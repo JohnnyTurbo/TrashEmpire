@@ -2,8 +2,9 @@
 
 namespace TMG.TrashEmpire
 {
+    [GenerateAuthoringComponent]
     [InternalBufferCapacity(8)]
-    public struct TrashBufferElement : IComponentData
+    public struct TrashBufferElement : IBufferElementData
     {
         public Entity Value;
 

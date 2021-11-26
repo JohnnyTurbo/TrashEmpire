@@ -23,8 +23,7 @@ namespace TMG.TrashEmpire
         protected override void OnStartRunning()
         {
             _mainCamera = Camera.main;
-            _physicsWorldSystem = World.GetExistingSystem<BuildPhysicsWorld>();
-            _collisionWorld = _physicsWorldSystem.PhysicsWorld.CollisionWorld;
+            
             _selectedEntityData = GetSingleton<SelectedEntityData>();
             
             RequireSingletonForUpdate<UnitSelectStateTag>();
@@ -34,6 +33,9 @@ namespace TMG.TrashEmpire
         {
             if (Input.GetMouseButtonDown(0))
             {
+                _physicsWorldSystem = World.GetExistingSystem<BuildPhysicsWorld>();
+                _collisionWorld = _physicsWorldSystem.PhysicsWorld.CollisionWorld;
+                
                 var ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
                 var rayStart = ray.origin;
                 var rayEnd = ray.GetPoint(_mainCamera.farClipPlane);
