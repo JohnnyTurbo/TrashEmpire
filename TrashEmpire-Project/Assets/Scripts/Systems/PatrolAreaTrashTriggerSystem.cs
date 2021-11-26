@@ -1,5 +1,6 @@
 ﻿using Unity.Entities;
 using Unity.Physics.Stateful;
+using UnityEngine;
 
 namespace TMG.TrashEmpire
 {
@@ -23,7 +24,6 @@ namespace TMG.TrashEmpire
                     }
                     else
                     {
-                        
                         for (var i = 0; i < trashBuffer.Length; i++)
                         {
                             if (trashBuffer[i] == otherEntity)

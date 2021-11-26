@@ -37,13 +37,13 @@ namespace TMG.TrashEmpire
             _patrolAreaPrefabData = GetSingleton<PatrolAreaPrefabData>();
             _mainCamera = Camera.main;
             _physicsWorldSystem = World.GetExistingSystem<BuildPhysicsWorld>();
-            _collisionWorld = _physicsWorldSystem.PhysicsWorld.CollisionWorld;
             
             _patrolAreaSelection = EntityManager.Instantiate(_patrolAreaPrefabData.PatrolAreaSelectionPrefab);
         }
 
         protected override void OnUpdate()
         {
+            _collisionWorld = _physicsWorldSystem.PhysicsWorld.CollisionWorld;
             var ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
             var rayStart = ray.origin;
             var rayEnd = ray.GetPoint(_mainCamera.farClipPlane);
