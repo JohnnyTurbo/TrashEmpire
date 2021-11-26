@@ -18,8 +18,8 @@ namespace TMG.TrashEmpire
             
             Entities.ForEach((Entity e, ref PickingUpTrashData trashTimer, ref TrashCollectionData trashCollectionData, in TargetTrashData targetTrash)=>
             {
-                trashTimer.timePickingUp += deltaTime;
-                if (trashTimer.timePickingUp >= GetComponent<TrashData>(targetTrash.Value).Weight)
+                trashTimer.Timer += deltaTime;
+                if (trashTimer.Timer >= GetComponent<TrashData>(targetTrash.Value).Weight)
                 {
                     trashCollectionData.CurrentTrashHeld += GetComponent<TrashData>(targetTrash.Value).Weight;
                     EntityManager.AddComponent<DeleteTrashTag>(targetTrash.Value);

@@ -56,6 +56,6 @@ namespace TMG.TrashEmpire
 
     public struct PickingUpTrashData : IComponentData
     {
-        public float timePickingUp;
+        public float Timer;
     }
 }

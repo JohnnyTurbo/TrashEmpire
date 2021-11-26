@@ -29,25 +29,32 @@ namespace TMG.TrashEmpire
         {
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                 Debug.Log("Set Patrol Area");
+                //Debug.Log("Set Patrol Area");
                 ChangeToSetPatrolAreaState();
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha2))
             {
                 Debug.Log("Set Drop-off Point");
+                ChangeToSetDropOffPointState();
             }
-        }
-
-        protected override void OnStopRunning()
-        {
-            //Debug.Log("UnitSelectedStateSystem OnStopRunning");
         }
 
         private void ChangeToSetPatrolAreaState()
         {
             EntityManager.RemoveComponent<UnitSelectStateTag>(_gameStateController);
             EntityManager.AddComponent<SetPatrolAreaStateTag>(_gameStateController);
+        }
+
+        private void ChangeToSetDropOffPointState()
+        {
+            EntityManager.RemoveComponent<UnitSelectStateTag>(_gameStateController);
+            EntityManager.AddComponent<SetDropOffPointStateTag>(_gameStateController);
+        }
+
+        protected override void OnStopRunning()
+        {
+            //Debug.Log("UnitSelectedStateSystem OnStopRunning");
         }
     }
 }
