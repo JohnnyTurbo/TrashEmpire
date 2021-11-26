@@ -11,6 +11,7 @@ using RaycastHit = Unity.Physics.RaycastHit;
 namespace TMG.TrashEmpire
 {
     //[DisableAutoCreation]
+    [UpdateAfter(typeof(UnitSelectedStateSystem))]
     public class SetPatrolAreaStateSystem : SystemBase
     {
         private Entity _gameStateController;
@@ -74,20 +75,21 @@ namespace TMG.TrashEmpire
 
         private void SetPatrolArea(float3 patrolOrigin)
         {
-            var patrolArea = EntityManager.Instantiate(_patrolAreaPrefabData.PatrolAreaPrefab);
+            Entity patrolArea;
+            Entity selectedUnit = _selectedEntityData.SelectedUnit;
+            
+            if (!HasComponent<PatrolAreaData>(selectedUnit))
+            {
+                EntityManager.AddComponent<PatrolAreaData>(selectedUnit);
+                patrolArea = EntityManager.Instantiate(_patrolAreaPrefabData.PatrolAreaPrefab);
+                SetComponent(selectedUnit, new PatrolAreaData{Value = patrolArea});
+            }
+            else
+            {
+                patrolArea = GetComponent<PatrolAreaData>(selectedUnit).Value;
+            }
             EntityManager.SetComponentData(patrolArea, new Translation{Value = patrolOrigin});
 
-            if (!HasComponent<PatrolAreaData>(_selectedEntityData.SelectedUnit))
-            {
-                EntityManager.AddComponent<PatrolAreaData>(_selectedEntityData.SelectedUnit);
-            }
-            
-            var patrolAreaData = GetComponent<PatrolAreaData>(_selectedEntityData.SelectedUnit);
-            patrolAreaData.Value = patrolArea;
-            SetComponent(_selectedEntityData.SelectedUnit, patrolAreaData);
-
-            
-            
             /*if (HasComponent<NavDestination>(_selectedEntityData.SelectedUnit))
             {
                 GetBuffer<NavPathBufferElement>(_selectedEntityData.SelectedUnit).Clear();
@@ -103,6 +105,7 @@ namespace TMG.TrashEmpire
 
         private void ChangeToUnitSelectState()
         {
+            Debug.Log("Changing to unit select state");
             EntityManager.RemoveComponent<SetPatrolAreaStateTag>(_gameStateController);
             EntityManager.AddComponent<UnitSelectStateTag>(_gameStateController);
         }

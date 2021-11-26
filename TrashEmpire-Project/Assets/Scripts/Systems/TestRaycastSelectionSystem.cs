@@ -19,48 +19,45 @@ namespace TMG.TrashEmpire
         private BuildPhysicsWorld _physicsWorldSystem;
         private CollisionWorld _collisionWorld;
         private SelectedEntityData _selectedEntityData;
+        private EndSimulationEntityCommandBufferSystem _ecbSystem;
         
+        protected override void OnCreate()
+        {
+            RequireSingletonForUpdate<UnitSelectStateTag>();
+            _ecbSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
+        }
+
         protected override void OnStartRunning()
         {
+            Debug.Log("TestRaycastSelectionSystem OnStartRunning()");
+            
             _mainCamera = Camera.main;
             
             _selectedEntityData = GetSingleton<SelectedEntityData>();
-            
-            RequireSingletonForUpdate<UnitSelectStateTag>();
         }
 
         protected override void OnUpdate()
         {
             if (Input.GetMouseButtonDown(0))
             {
+                DeselectUnit();
                 _physicsWorldSystem = World.GetExistingSystem<BuildPhysicsWorld>();
                 _collisionWorld = _physicsWorldSystem.PhysicsWorld.CollisionWorld;
-                
+
                 var ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
                 var rayStart = ray.origin;
                 var rayEnd = ray.GetPoint(_mainCamera.farClipPlane);
-                RaycastHit hit;
-                if (Raycast(rayStart, rayEnd, out hit))
+                
+                if (Raycast(rayStart, rayEnd, out var hit))
                 {
                     var selectedEntity = _physicsWorldSystem.PhysicsWorld.Bodies[hit.RigidBodyIndex].Entity;
                     if (EntityManager.HasComponent<SelectableUnitTag>(selectedEntity))
                     {
                         if (_selectedEntityData.SelectedUnit != selectedEntity)
                         {
-                            DeselectUnit();
                             SelectUnit(selectedEntity);
                         }
                     }
-                    else
-                    {
-                        // Raycast did not hit a selectable unit
-                        DeselectUnit();
-                    }
-                }
-                else
-                {
-                    // Raycast did not hit anything
-                    DeselectUnit();
                 }
             }
         }
@@ -68,7 +65,9 @@ namespace TMG.TrashEmpire
         private void SelectUnit(Entity selectedEntity)
         {
             // Debug.Log($"Selecting Entity ID: {selectedEntity.Index}, Version: {selectedEntity.Version}");
-            EntityManager.AddComponent<SelectedEntityTag>(selectedEntity);
+
+            var ecb = _ecbSystem.CreateCommandBuffer();
+            ecb.AddComponent<SelectedEntityTag>(selectedEntity);
             _selectedEntityData.SelectedUnit = selectedEntity;
             _entitySelected = true;
             var selectionUI = EntityManager.Instantiate(_selectedEntityData.SelectionUIPrefab);
@@ -82,6 +81,7 @@ namespace TMG.TrashEmpire
         {
             //Debug.Log("Deselecting Unit");
             EntityManager.RemoveComponent<SelectedEntityTag>(_selectedEntityData.SelectedUnit);
+            
             _selectedEntityData.SelectedUnit = Entity.Null;
             EntityManager.DestroyEntity(_selectedEntityData.SelectionUI);
             _selectedEntityData.SelectionUI = Entity.Null;
@@ -100,6 +100,11 @@ namespace TMG.TrashEmpire
 
             raycastHit = new RaycastHit();
             return _collisionWorld.CastRay(input, out raycastHit);
+        }
+
+        protected override void OnStopRunning()
+        {
+            Debug.Log("TestRaycastSelectionSystem OnStopRunning()");
         }
     }
 }
