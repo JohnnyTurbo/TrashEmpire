@@ -6,6 +6,6 @@ namespace TMG.TrashEmpire
     public struct TrashData : IComponentData
     {
         public float Weight;
-        public bool IsTargeted;
+        public Entity AssignedWorker;
     }
 }

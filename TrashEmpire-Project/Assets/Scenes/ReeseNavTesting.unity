@@ -628,8 +628,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca496641a35748f0b61eb7d8f9e0acbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Weight: 0
-  IsTargeted: 0
+  Weight: 3
+  AssignedWorker: {fileID: 0}
 --- !u!114 &66981794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -933,8 +933,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca496641a35748f0b61eb7d8f9e0acbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Weight: 0
-  IsTargeted: 0
+  Weight: 3
+  AssignedWorker: {fileID: 0}
 --- !u!114 &68882448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1141,6 +1141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bac862e6ebe6425facfea3fc20019661, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _mainCamera: {fileID: 0}
 --- !u!4 &110339888
 Transform:
   m_ObjectHideFlags: 0
@@ -1167,6 +1168,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc4d5ff13be64ec4b58d7b9389f565c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mouseStartPos:
+    x: 0
+    y: 0
+    z: 0
+  mouseEndPos:
+    x: 0
+    y: 0
+    z: 0
+  _mainCamera: {fileID: 0}
+  isDragging: 0
+  justStopped: 0
 --- !u!1 &179471463
 GameObject:
   m_ObjectHideFlags: 0
@@ -1546,8 +1558,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca496641a35748f0b61eb7d8f9e0acbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Weight: 0
-  IsTargeted: 0
+  Weight: 3
+  AssignedWorker: {fileID: 0}
 --- !u!114 &260059236
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2737,8 +2749,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca496641a35748f0b61eb7d8f9e0acbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Weight: 0
-  IsTargeted: 0
+  Weight: 3
+  AssignedWorker: {fileID: 0}
 --- !u!114 &733649543
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3168,8 +3180,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca496641a35748f0b61eb7d8f9e0acbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Weight: 0
-  IsTargeted: 0
+  Weight: 3
+  AssignedWorker: {fileID: 0}
 --- !u!114 &820027877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4331,7 +4343,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-63372
+  m_Name: pb_Mesh26454
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -4503,7 +4515,8 @@ GameObject:
   - component: {fileID: 1088113131}
   - component: {fileID: 1088113130}
   - component: {fileID: 1088113135}
-  m_Layer: 0
+  - component: {fileID: 1088113136}
+  m_Layer: 29
   m_Name: Prism
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4760,7 +4773,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1088113129}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.91, y: 0.08190513, z: 0.87}
+  m_LocalPosition: {x: 10.91, y: -0.15, z: 0.87}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -4778,7 +4791,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea7d7495833204790ba1d3a8755397f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ConversionMode: 0
+  ConversionMode: 1
+--- !u!208 &1088113136
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1088113129}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 7.5000005, y: 2, z: 2.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 7.5000005, y: 2, z: 2.5}
+  m_TimeToStationary: 0.5
 --- !u!1 &1091058854
 GameObject:
   m_ObjectHideFlags: 0
@@ -5691,8 +5720,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca496641a35748f0b61eb7d8f9e0acbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Weight: 0
-  IsTargeted: 0
+  Weight: 3
+  AssignedWorker: {fileID: 0}
 --- !u!114 &1240057673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5806,7 +5835,7 @@ MonoBehaviour:
   jumpGravity: 100
   jumpSpeedMultiplierX: 1.5
   jumpSpeedMultiplierY: 2
-  translationSpeed: 20
+  translationSpeed: 10
   rotationSpeed: 0.3
   type: Humanoid
   offset: {x: 0, y: 1, z: 0}
@@ -5895,7 +5924,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1286310606}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 16.3, y: 1.48, z: -7.9}
+  m_LocalPosition: {x: 22.63, y: 1.48, z: -6.26}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1567633870}
@@ -6406,8 +6435,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca496641a35748f0b61eb7d8f9e0acbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Weight: 0
-  IsTargeted: 0
+  Weight: 3
+  AssignedWorker: {fileID: 0}
 --- !u!114 &1482327660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6786,8 +6815,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca496641a35748f0b61eb7d8f9e0acbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Weight: 0
-  IsTargeted: 0
+  Weight: 3
+  AssignedWorker: {fileID: 0}
 --- !u!114 &1637917589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7289,7 +7318,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ee6afc761b14a989c6f5f6f0dc6d8bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SelectedUnit: {fileID: 0}
   SelectionUI: {fileID: 0}
   SelectionUIPrefab: {fileID: 5276074528153770908, guid: 8f421bf4b1c1fcc468f46e7897dd6104, type: 3}
 --- !u!114 &2087056410
