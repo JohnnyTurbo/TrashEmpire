@@ -4,12 +4,20 @@ namespace TMG.TrashEmpire
 {
     public class DeleteTrashSystem : SystemBase
     {
+        private EndSimulationEntityCommandBufferSystem _ecbSystem;
+
+        protected override void OnCreate()
+        {
+            _ecbSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
+        }
+        
         protected override void OnUpdate()
         {
+            var ecb = _ecbSystem.CreateCommandBuffer();
             Entities.WithAll<DeleteTrashTag>().ForEach((Entity e) =>
             {
-                EntityManager.DestroyEntity(e);
-            }).WithStructuralChanges().WithoutBurst().Run();
+                ecb.DestroyEntity(e);
+            }).Run();
         }
     }
 }

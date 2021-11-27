@@ -52,6 +52,7 @@ namespace TMG.TrashEmpire
                 if (Raycast(rayStart, rayEnd, out var hit))
                 {
                     var selectedEntity = _physicsWorldSystem.PhysicsWorld.Bodies[hit.RigidBodyIndex].Entity;
+                    Debug.Log(selectedEntity.Index + "Hit");
                     if (EntityManager.HasComponent<SelectableUnitTag>(selectedEntity))
                     {
                         if (_selectedUnit != selectedEntity)
@@ -80,7 +81,11 @@ namespace TMG.TrashEmpire
             {
                 Start = rayFrom,
                 End = rayTo,
-                Filter = CollisionFilter.Default
+                Filter = new CollisionFilter
+                {
+                    BelongsTo = (uint) CollisionLayers.Raycast,
+                    CollidesWith = (uint) (CollisionLayers.Ground | CollisionLayers.Units)
+                }
             };
 
             raycastHit = new RaycastHit();

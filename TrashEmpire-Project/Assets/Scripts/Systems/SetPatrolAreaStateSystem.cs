@@ -95,7 +95,11 @@ namespace TMG.TrashEmpire
             {
                 Start = rayFrom,
                 End = rayTo,
-                Filter = CollisionFilter.Default
+                Filter = new CollisionFilter
+                {
+                    BelongsTo = (uint) CollisionLayers.Raycast,
+                    CollidesWith = (uint) CollisionLayers.Ground
+                }
             };
 
             raycastHit = new RaycastHit();
