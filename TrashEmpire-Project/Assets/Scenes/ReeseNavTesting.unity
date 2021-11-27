@@ -243,7 +243,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6072300}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -18.7, y: 1.5, z: -32.7}
+  m_LocalPosition: {x: 25.11, y: 1.5, z: -26.11}
   m_LocalScale: {x: 9.0104, y: 5.6191, z: 3.1768568}
   m_Children: []
   m_Father: {fileID: 724175166}
@@ -1609,7 +1609,6 @@ GameObject:
   - component: {fileID: 322759218}
   - component: {fileID: 322759217}
   - component: {fileID: 322759216}
-  - component: {fileID: 322759215}
   - component: {fileID: 322759214}
   - component: {fileID: 322759213}
   - component: {fileID: 322759212}
@@ -1681,20 +1680,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ConversionMode: 0
---- !u!136 &322759215
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 322759210}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &322759216
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2161,7 +2146,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 421394924}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.72000027, y: 1.5, z: -34.20509}
+  m_LocalPosition: {x: -0.72000027, y: 1.5, z: -24}
   m_LocalScale: {x: 9.0104, y: 5.6191, z: 3.1768568}
   m_Children: []
   m_Father: {fileID: 724175166}
@@ -2245,7 +2230,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 439479632}
   m_LocalRotation: {x: 0.29696107, y: -0.49565327, z: 0.1851693, w: 0.79489267}
-  m_LocalPosition: {x: 26.5, y: 14, z: -15.3}
+  m_LocalPosition: {x: 28.88, y: 16.02, z: -22.11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2599,7 +2584,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-373178
+  m_Name: pb_Mesh26312
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3970,7 +3955,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 831574873}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -24.900002, y: 1.5, z: -39.8}
+  m_LocalPosition: {x: -24.900002, y: 1.5, z: -29.59491}
   m_LocalScale: {x: 9.0104, y: 5.6191, z: 3.1768568}
   m_Children: []
   m_Father: {fileID: 724175166}
@@ -4096,7 +4081,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 838254443}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8.1, y: 1.5, z: -42.4}
+  m_LocalPosition: {x: 8.1, y: 1.5, z: -32.194912}
   m_LocalScale: {x: 9.0104, y: 5.6191, z: 3.1768568}
   m_Children: []
   m_Father: {fileID: 724175166}
@@ -4222,7 +4207,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 854992157}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -18.7, y: 1.5, z: -32.7}
+  m_LocalPosition: {x: -18.7, y: 1.5, z: -22.494911}
   m_LocalScale: {x: 9.0104, y: 5.6191, z: 3.1768568}
   m_Children: []
   m_Father: {fileID: 724175166}
@@ -5105,7 +5090,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh77436
+  m_Name: pb_Mesh26502
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -5690,7 +5675,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1091058854}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -11.7, y: 1.5, z: -47}
+  m_LocalPosition: {x: -11.7, y: 1.5, z: -36.79491}
   m_LocalScale: {x: 9.0104, y: 5.6191, z: 3.1768568}
   m_Children: []
   m_Father: {fileID: 724175166}
@@ -5740,7 +5725,6 @@ GameObject:
   - component: {fileID: 1124624250}
   - component: {fileID: 1124624249}
   - component: {fileID: 1124624248}
-  - component: {fileID: 1124624247}
   - component: {fileID: 1124624245}
   - component: {fileID: 1124624252}
   - component: {fileID: 1124624251}
@@ -5779,20 +5763,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3cbd05fac4144cf918d848a2e2469ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!136 &1124624247
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1124624244}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1124624248
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6704,7 +6674,6 @@ GameObject:
   - component: {fileID: 1286310614}
   - component: {fileID: 1286310613}
   - component: {fileID: 1286310612}
-  - component: {fileID: 1286310611}
   - component: {fileID: 1286310610}
   - component: {fileID: 1286310609}
   - component: {fileID: 1286310608}
@@ -6776,20 +6745,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ConversionMode: 0
---- !u!136 &1286310611
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1286310606}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1286310612
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7256,7 +7211,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1421910619}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -36.6, y: 1.5, z: -49.4}
+  m_LocalPosition: {x: -36.6, y: 1.5, z: -39.194912}
   m_LocalScale: {x: 9.0104, y: 5.6191, z: 3.1768568}
   m_Children: []
   m_Father: {fileID: 724175166}
@@ -7720,7 +7675,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1577536590}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -25.100002, y: 1.5, z: -54.8}
+  m_LocalPosition: {x: -25.100002, y: 1.5, z: -44.59491}
   m_LocalScale: {x: 9.0104, y: 5.6191, z: 3.1768568}
   m_Children: []
   m_Father: {fileID: 724175166}
