@@ -5,14 +5,22 @@ namespace TMG.TrashEmpire
 {
     public class PickUpTrackSystem : SystemBase
     {
+        private EndSimulationEntityCommandBufferSystem _ecbSystem;
+
+        protected override void OnCreate()
+        {
+            _ecbSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
+        }
+
         protected override void OnUpdate()
         {
+            var ecb = _ecbSystem.CreateCommandBuffer();
             Entities.WithAll<BeingPickedUpTag, PhysicsMass, PhysicsVelocity>().ForEach((Entity e) =>
             {
-                EntityManager.RemoveComponent<PhysicsMass>(e);
-                EntityManager.RemoveComponent<PhysicsVelocity>(e);
+                ecb.RemoveComponent<PhysicsMass>(e);
+                ecb.RemoveComponent<PhysicsVelocity>(e);
 
-            }).WithStructuralChanges().WithoutBurst().Run();
+            }).Run();
 
             var deltaTime = Time.DeltaTime;
             
@@ -22,13 +30,11 @@ namespace TMG.TrashEmpire
                 if (trashTimer.Timer >= GetComponent<TrashData>(targetTrash.Value).Weight)
                 {
                     trashCollectionData.CurrentTrashHeld += GetComponent<TrashData>(targetTrash.Value).Weight;
-                    EntityManager.AddComponent<DeleteTrashTag>(targetTrash.Value);
-                    EntityManager.RemoveComponent<PickingUpTrashData>(e);
-                    EntityManager.RemoveComponent<TargetTrashData>(e);
+                    ecb.AddComponent<DeleteTrashTag>(targetTrash.Value);
+                    ecb.RemoveComponent<PickingUpTrashData>(e);
+                    ecb.RemoveComponent<TargetTrashData>(e);
                 }
-            }).WithStructuralChanges().WithoutBurst().Run();
+            }).Run();
         }
     }
-
-    public struct DeleteTrashTag : IComponentData {}
 }

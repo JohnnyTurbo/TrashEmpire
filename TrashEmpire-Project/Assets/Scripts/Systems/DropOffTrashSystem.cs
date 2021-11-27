@@ -4,8 +4,16 @@ namespace TMG.TrashEmpire
 {
     public class DropOffTrashSystem : SystemBase
     {
+        private EndSimulationEntityCommandBufferSystem _ecbSystem;
+
+        protected override void OnCreate()
+        {
+            _ecbSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
+        }
+        
         protected override void OnUpdate()
         {
+            var ecb = _ecbSystem.CreateCommandBuffer();
             var deltaTime = Time.DeltaTime;
             Entities.ForEach((Entity e, ref DropOffTrashData dropOffTrashData, ref TrashCollectionData trashCollectionData) =>
             {
@@ -13,10 +21,11 @@ namespace TMG.TrashEmpire
                 if (dropOffTrashData.Timer >= trashCollectionData.CurrentTrashHeld)
                 {
                     trashCollectionData.CurrentTrashHeld = 0f;
-                    EntityManager.RemoveComponent<MaxTrashHeldTag>(e);
-                    EntityManager.RemoveComponent<DropOffTrashData>(e);
+                    ecb.RemoveComponent<MaxTrashHeldTag>(e);
+                    ecb.RemoveComponent<DropOffTrashData>(e);
+                    ecb.RemoveComponent<ForceToDropOffPointTag>(e);
                 }
-            }).WithStructuralChanges().WithoutBurst().Run();
+            }).Run();
         }
     }
 }

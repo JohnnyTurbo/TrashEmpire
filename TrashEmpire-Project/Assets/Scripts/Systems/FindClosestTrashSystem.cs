@@ -1,4 +1,5 @@
-﻿using Unity.Entities;
+﻿using Reese.Nav;
+using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
 
@@ -6,27 +7,38 @@ namespace TMG.TrashEmpire
 {
     public class FindClosestTrashSystem : SystemBase
     {
-        private EndSimulationEntityCommandBufferSystem ecbSystem;
+        private EndSimulationEntityCommandBufferSystem _ecbSystem;
 
         protected override void OnCreate()
         {
-            ecbSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
+            _ecbSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
         }
 
         protected override void OnUpdate()
         {
-            var ecb = ecbSystem.CreateCommandBuffer();
+            var ecb = _ecbSystem.CreateCommandBuffer();
             
             Entities
                 .WithNone<MaxTrashHeldTag, TargetTrashData, PickingUpTrashData>()
+                .WithNone<ForceToDropOffPointTag>()
                 .ForEach((Entity e, in PatrolAreaData patrolAreaData, in Translation translation, in TrashCollectionData trashCollectionData) =>
                 {
                     var trashInRange = GetBuffer<TrashBufferElement>(patrolAreaData.Value);
                     if (trashInRange.Length <= 0)
                     {
-                        // Return trash to destination if you have any
-                        // OR/THEN
-                        // Navigate to patrol area & wait
+                        if (trashCollectionData.CurrentTrashHeld > 0)
+                        {
+                            ecb.AddComponent<ForceToDropOffPointTag>(e);
+                        }
+                        else
+                        {
+                            ecb.AddComponent<NavDestination>(e);
+                            ecb.SetComponent(e, new NavDestination
+                            {
+                                WorldPoint = GetComponent<Translation>(patrolAreaData.Value).Value,
+                                Teleport = false
+                            });
+                        }
                         return;
                     }
 
@@ -58,10 +70,5 @@ namespace TMG.TrashEmpire
                     
                 }).Run();
         }
-    }
-    
-    public struct TargetTrashData : IComponentData
-    {
-        public Entity Value;
     }
 }

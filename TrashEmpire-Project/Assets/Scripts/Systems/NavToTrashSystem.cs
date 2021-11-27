@@ -23,17 +23,12 @@ namespace TMG.TrashEmpire
                 var trashPosition = GetComponent<Translation>(targetTrash.Value).Value;
                 if (math.distance(translation.Value, trashPosition) <= 2f)
                 {
-                    //EntityManager.AddComponent<StopMovingTag>(e);
                     ecb.AddComponent<PickingUpTrashData>(e);
                     ecb.AddComponent<BeingPickedUpTag>(targetTrash.Value);
-                    //ecb.DestroyEntity(targetTrash.Value);
-                    //ecb.RemoveComponent<TargetTrashData>(e);
                     return;
                 }
                 if (HasComponent<NavDestination>(e))
                 {
-                    //GetBuffer<NavPathBufferElement>(e).Clear();
-                    //EntityManager.RemoveComponent<NavDestination>(e);
                     ecb.RemoveComponent<NavDestination>(e);
                 }
                
@@ -43,19 +38,7 @@ namespace TMG.TrashEmpire
                     WorldPoint = trashPosition,
                     Teleport = false
                 });
-                /*EntityManager.AddComponentData(e, new NavDestination
-                {
-                    WorldPoint = trashPosition,
-                    Teleport = false
-                });*/
             }).Run();
         }
-    }
-
-    public struct BeingPickedUpTag : IComponentData {}
-
-    public struct PickingUpTrashData : IComponentData
-    {
-        public float Timer;
     }
 }

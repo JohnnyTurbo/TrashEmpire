@@ -85,9 +85,4 @@ namespace TMG.TrashEmpire
             //Debug.Log("SetDropOffPointStateSystem OnStopRunning()");
         }
     }
-
-    public struct DropOffPointData : IComponentData
-    {
-        public Entity Value;
-    }
 }
