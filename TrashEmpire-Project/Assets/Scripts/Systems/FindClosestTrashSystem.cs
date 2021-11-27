@@ -2,6 +2,7 @@
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
+using UnityEngine;
 
 namespace TMG.TrashEmpire
 {
@@ -46,10 +47,16 @@ namespace TMG.TrashEmpire
                     var lowestDistance = float.MaxValue;
                     foreach (var trash in trashInRange)
                     {
+                        if (HasComponent<WillBePickedUpTag>(trash))
+                        {
+                            Debug.Log("Dudes already got a trash man, man!");
+                            continue;
+                        }
                         if (GetComponent<TrashData>(trash).Weight > trashCollectionData.AvailableTrashCapacity)
                         {
                             continue;
                         }
+                        
                         var distanceToTrash = math.distance(translation.Value, GetComponent<Translation>(trash).Value);
                         if (distanceToTrash < lowestDistance)
                         {
@@ -66,6 +73,7 @@ namespace TMG.TrashEmpire
                     {
                         ecb.AddComponent<TargetTrashData>(e);
                         ecb.SetComponent(e, new TargetTrashData {Value = closestTrash});
+                        ecb.AddComponent<WillBePickedUpTag>(closestTrash);
                     }
                     
                 }).Run();
