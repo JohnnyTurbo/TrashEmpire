@@ -26,6 +26,7 @@ Thirdparty.meta
 SpaceSkies\ Free/
 SpaceSkies\ Free.meta
 ArchivedScripts
+ZZ-AssetStore/
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta
