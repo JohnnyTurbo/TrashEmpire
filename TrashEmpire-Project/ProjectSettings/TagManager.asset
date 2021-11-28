@@ -35,8 +35,8 @@ TagManager:
   - 
   - Surface
   - Obstacle
-  - Collider
-  - 
+  - POLARIS RAYCAST
+  - POLARIS SPLINE
   m_SortingLayers:
   - name: Default
     uniqueID: 0
